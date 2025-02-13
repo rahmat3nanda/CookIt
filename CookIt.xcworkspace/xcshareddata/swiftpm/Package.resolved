@@ -1,0 +1,15 @@
+{
+  "originHash" : "1c0eb9cb175df442a7b8ba9a1d3c0f5099a491fd065d3d3978975d932056a4c7",
+  "pins" : [
+    {
+      "identity" : "rcache-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rahmat3nanda/RCache-Swift/",
+      "state" : {
+        "revision" : "5586f1186d2c254b26d34bb5b3d0563a6b27a0d9",
+        "version" : "1.0.4"
+      }
+    }
+  ],
+  "version" : 3
+}
