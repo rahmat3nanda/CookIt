@@ -20,7 +20,7 @@ public enum Ingredient: String, Codable {
     case rice
     
     public var icon: String {
-        return switch self {
+        switch self {
         case .bread: "🍞"
         case .cheese: "🧀"
         case .tomato: "🍅"
@@ -34,5 +34,20 @@ public enum Ingredient: String, Codable {
         }
     }
     
-    public var name: String { return rawValue.capitalized }
+    public var name: String { rawValue.capitalized }
+    
+    public var tier: Tier {
+        switch self {
+        case .bread: .common
+        case .cheese: .common
+        case .tomato: .common
+        case .meat: .rare
+        case .garlic: .epic
+        case .egg: .rare
+        case .bacon: .common
+        case .lettuce: .common
+        case .chili: .rare
+        case .rice: .epic
+        }
+    }
 }
