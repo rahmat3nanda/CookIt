@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AF7B83B22D5E0C3F009E02BF /* Shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7B83B12D5E0C3F009E02BF /* Shared.framework */; };
+		AF7B83B32D5E0C3F009E02BF /* Shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AF7B83B12D5E0C3F009E02BF /* Shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AF7B83402D5E0A99009E02BF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -23,10 +28,25 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		AF7B83B42D5E0C3F009E02BF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AF7B83B32D5E0C3F009E02BF /* Shared.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		AF7B83292D5E0A97009E02BF /* CookIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CookIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF7B833F2D5E0A99009E02BF /* CookItTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CookItTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF7B83492D5E0A99009E02BF /* CookItUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CookItUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF7B83B12D5E0C3F009E02BF /* Shared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Shared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -65,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF7B83B22D5E0C3F009E02BF /* Shared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +112,7 @@
 				AF7B832B2D5E0A97009E02BF /* CookIt */,
 				AF7B83422D5E0A99009E02BF /* CookItTests */,
 				AF7B834C2D5E0A99009E02BF /* CookItUITests */,
+				AF7B83B02D5E0C3F009E02BF /* Frameworks */,
 				AF7B832A2D5E0A97009E02BF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -105,6 +127,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AF7B83B02D5E0C3F009E02BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AF7B83B12D5E0C3F009E02BF /* Shared.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -115,6 +145,7 @@
 				AF7B83252D5E0A97009E02BF /* Sources */,
 				AF7B83262D5E0A97009E02BF /* Frameworks */,
 				AF7B83272D5E0A97009E02BF /* Resources */,
+				AF7B83B42D5E0C3F009E02BF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
