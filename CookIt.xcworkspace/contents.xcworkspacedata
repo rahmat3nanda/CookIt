@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "container:Modules/Core/Core.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "container:Modules/Shared/Shared.xcodeproj">
    </FileRef>
    <FileRef
