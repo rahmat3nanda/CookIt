@@ -12,6 +12,7 @@ public enum Tier: String, Codable {
     case common
     case rare
     case epic
+    case legendary
     
     public var name: String { rawValue.capitalized }
     
@@ -20,6 +21,7 @@ public enum Tier: String, Codable {
         case .common: .blue
         case .rare: .purple
         case .epic: .red
+        case .legendary: .black
         }
     }
 }
