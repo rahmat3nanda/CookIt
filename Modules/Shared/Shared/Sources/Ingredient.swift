@@ -19,7 +19,7 @@ public enum Ingredient: String, Codable {
     case chili
     case rice
     
-    var icon: String {
+    public var icon: String {
         return switch self {
         case .bread: "🍞"
         case .cheese: "🧀"
@@ -34,5 +34,5 @@ public enum Ingredient: String, Codable {
         }
     }
     
-    var name: String { return rawValue.capitalized }
+    public var name: String { return rawValue.capitalized }
 }
