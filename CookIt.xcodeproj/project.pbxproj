@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		AF7B83B22D5E0C3F009E02BF /* Shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7B83B12D5E0C3F009E02BF /* Shared.framework */; };
 		AF7B83B32D5E0C3F009E02BF /* Shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AF7B83B12D5E0C3F009E02BF /* Shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AF7B84532D5E44A6009E02BF /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7B84522D5E44A6009E02BF /* Core.framework */; };
+		AF7B84542D5E44A6009E02BF /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AF7B84522D5E44A6009E02BF /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				AF7B83B32D5E0C3F009E02BF /* Shared.framework in Embed Frameworks */,
+				AF7B84542D5E44A6009E02BF /* Core.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,6 +50,7 @@
 		AF7B833F2D5E0A99009E02BF /* CookItTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CookItTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF7B83492D5E0A99009E02BF /* CookItUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CookItUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF7B83B12D5E0C3F009E02BF /* Shared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Shared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF7B84522D5E44A6009E02BF /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -86,6 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF7B83B22D5E0C3F009E02BF /* Shared.framework in Frameworks */,
+				AF7B84532D5E44A6009E02BF /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +135,7 @@
 		AF7B83B02D5E0C3F009E02BF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AF7B84522D5E44A6009E02BF /* Core.framework */,
 				AF7B83B12D5E0C3F009E02BF /* Shared.framework */,
 			);
 			name = Frameworks;
