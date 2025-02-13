@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 public enum Tier: String, Codable {
     case common
@@ -13,4 +14,12 @@ public enum Tier: String, Codable {
     case epic
     
     public var name: String { rawValue.capitalized }
+    
+    public var color: UIColor {
+        switch self {
+        case .common: .blue
+        case .rare: .purple
+        case .epic: .red
+        }
+    }
 }
