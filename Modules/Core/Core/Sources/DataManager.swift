@@ -5,8 +5,6 @@
 //  Created by Rahmat Trinanda Pramudya Amar on 13/02/25.
 //
 
-import Foundation
-import AVFoundation
 import RCache
 
 class DataManager {
@@ -32,5 +30,6 @@ class DataManager {
     
     func initialize(completion: () -> Void) {
         isFirstLaunch = RCache.common.readBool(key: .isFirstLaunch) ?? false
+        completion()
     }
 }
