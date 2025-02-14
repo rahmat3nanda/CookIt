@@ -9,6 +9,7 @@ import Foundation
 
 public protocol SplashPresenterProtocol: AnyObject {
     func loadData()
+    func loadSound()
 }
 
 public class SplashPresenter: SplashPresenterProtocol {
@@ -21,7 +22,12 @@ public class SplashPresenter: SplashPresenterProtocol {
     
     public func loadData() {
         DataManager.instance.initialize { [weak self] in
-            self?.view?.loadCompleted()
+            self?.view?.dataLoaded()
+        }
+    }
+    public func loadSound() {
+        SoundManager.instance.initialize { [weak self] in
+            self?.view?.soundLoaded()
         }
     }
 }

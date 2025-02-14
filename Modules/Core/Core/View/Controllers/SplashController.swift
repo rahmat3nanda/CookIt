@@ -8,7 +8,8 @@
 import UIKit
 
 public protocol SplashControllerProtocol: AnyObject {
-    func loadCompleted()
+    func dataLoaded()
+    func soundLoaded()
 }
 
 public protocol SplashControllerDelegate: AnyObject {
@@ -45,7 +46,12 @@ public class SplashController: UIViewController {
 }
 
 extension SplashController: SplashControllerProtocol {
-    public func loadCompleted() {
+    public func dataLoaded() {
+        presenter?.loadSound()
+    }
+    
+    public func soundLoaded() {
+        SoundManager.instance.playBgm()
         delegate?.navigateToHome()
     }
 }
