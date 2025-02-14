@@ -36,8 +36,10 @@ extension GachaController: GachaViewDelegate {
         
         if tapCount < 3 {
             mainView.animateChestBounce()
+            SoundManager.instance.playSfx(type: .box)
         } else {
             mainView.animateChestOpen()
+            SoundManager.instance.playSfx(type: .sparkle)
         }
         
         tapCount += 1
