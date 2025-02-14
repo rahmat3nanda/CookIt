@@ -8,7 +8,7 @@
 import UIKit
 import Core
 
-// MARK: - Hero Page
+// MARK: - Splash Page
 extension SceneDelegate {
     func makeSplashController() -> UIViewController {
         let controller = SplashController()
@@ -22,6 +22,8 @@ extension SceneDelegate {
 
 extension SceneDelegate: SplashControllerDelegate {
     func navigateToHome() {
-        
+        let target = makeHomeController()
+        navigationController.setNavigationBarHidden(true, animated: true)
+        navigationController.pushViewController(target, animated: true)
     }
 }

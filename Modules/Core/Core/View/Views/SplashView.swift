@@ -14,7 +14,7 @@ protocol SplashViewDelegate: AnyObject {
 
 public class SplashView: UIView {
     weak var delegate: SplashViewDelegate?
-    
+
     private lazy var label = {
         let label = UILabel()
         label.text = "CookIt!"
@@ -23,12 +23,12 @@ public class SplashView: UIView {
             .rounded()
         return label
     }()
-    
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         configUI()
     }
-    
+
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
         configUI()
@@ -39,7 +39,7 @@ private extension SplashView {
     private func configUI() {
         backgroundColor = .black
         addSubview(label)
-        
+
         label.anchors.center.align()
         label.transform = CGAffineTransform(scaleX: 0, y: 0)
         label.alpha = 0
