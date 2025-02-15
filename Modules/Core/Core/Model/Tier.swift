@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public enum Tier: String, Codable {
+public enum Tier: String, Codable, CaseIterable {
     case common
     case rare
     case epic
@@ -22,6 +22,15 @@ public enum Tier: String, Codable {
         case .rare: .purple
         case .epic: .red
         case .legendary: .black
+        }
+    }
+    
+    public var rate: Double {
+        switch self {
+        case .common: 0.5
+        case .rare: 0.3
+        case .epic: 0.15
+        case .legendary: 0.05
         }
     }
 }
