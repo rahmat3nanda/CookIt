@@ -233,7 +233,7 @@ private extension HomeView {
     private func configCollectionView() {
         ingredientsCollView.dataSource = self
         ingredientsCollView.delegate = self
-        ingredientsCollView.registerCustomCell(GachaItemCell.self)
+        ingredientsCollView.registerCustomCell(CardItemCell.self)
     }
 }
 
@@ -243,8 +243,9 @@ extension HomeView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCustomCell(with: GachaItemCell.self, indexPath: indexPath)
+        let cell = collectionView.dequeueReusableCustomCell(with: CardItemCell.self, indexPath: indexPath)
         cell.setItem(items[indexPath.item])
+        cell.showCount = true
         return cell
     }
 }

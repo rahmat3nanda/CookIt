@@ -166,7 +166,7 @@ private extension GachaView {
     private func configCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.registerCustomCell(GachaItemCell.self)
+        collectionView.registerCustomCell(CardItemCell.self)
     }
 }
 
@@ -176,7 +176,7 @@ extension GachaView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCustomCell(with: GachaItemCell.self, indexPath: indexPath)
+        let cell = collectionView.dequeueReusableCustomCell(with: CardItemCell.self, indexPath: indexPath)
         cell.setItem(items[indexPath.item])
         return cell
     }
