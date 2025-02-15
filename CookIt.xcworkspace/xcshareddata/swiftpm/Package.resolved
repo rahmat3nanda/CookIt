@@ -1,6 +1,15 @@
 {
-  "originHash" : "24d0a99868bb91fa41f9c3fa03d21eead1a086952a1a8cdb4fe1a374084e94f6",
+  "originHash" : "0b9c00925b6035d11004da250c7f374924cdd68334e4d5ee794e97a6e3e19788",
   "pins" : [
+    {
+      "identity" : "instructions",
+      "kind" : "remoteSourceControl",
+      "location" : "http://github.com/ephread/Instructions",
+      "state" : {
+        "revision" : "54f50ec058a118107178f641f7475db353080c6d",
+        "version" : "2.3.0"
+      }
+    },
     {
       "identity" : "lottie-ios",
       "kind" : "remoteSourceControl",

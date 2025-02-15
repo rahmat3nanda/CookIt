@@ -11,6 +11,7 @@
 		AF7B84442D5E40C2009E02BF /* Shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7B84402D5E3E01009E02BF /* Shared.framework */; };
 		AF7B845D2D5E4CA1009E02BF /* RCache in Frameworks */ = {isa = PBXBuildFile; productRef = AF7B845C2D5E4CA1009E02BF /* RCache */; };
 		AF7B86372D5FB5EE009E02BF /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = AF7B86362D5FB5EE009E02BF /* Lottie */; };
+		AF7B86C82D60BFF1009E02BF /* Instructions in Frameworks */ = {isa = PBXBuildFile; productRef = AF7B86C72D60BFF1009E02BF /* Instructions */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF7B845D2D5E4CA1009E02BF /* RCache in Frameworks */,
+				AF7B86C82D60BFF1009E02BF /* Instructions in Frameworks */,
 				AF7B84442D5E40C2009E02BF /* Shared.framework in Frameworks */,
 				AF7B86372D5FB5EE009E02BF /* Lottie in Frameworks */,
 			);
@@ -137,6 +139,7 @@
 			packageProductDependencies = (
 				AF7B845C2D5E4CA1009E02BF /* RCache */,
 				AF7B86362D5FB5EE009E02BF /* Lottie */,
+				AF7B86C72D60BFF1009E02BF /* Instructions */,
 			);
 			productName = Core;
 			productReference = AF7B83CE2D5E184A009E02BF /* Core.framework */;
@@ -195,6 +198,7 @@
 			packageReferences = (
 				AF7B845B2D5E4CA1009E02BF /* XCRemoteSwiftPackageReference "RCache-Swift" */,
 				AF7B86352D5FB5EE009E02BF /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				AF7B86C62D60BFF1009E02BF /* XCRemoteSwiftPackageReference "Instructions" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AF7B83CF2D5E184A009E02BF /* Products */;
@@ -534,6 +538,14 @@
 				minimumVersion = 4.5.1;
 			};
 		};
+		AF7B86C62D60BFF1009E02BF /* XCRemoteSwiftPackageReference "Instructions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "http://github.com/ephread/Instructions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -546,6 +558,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AF7B86352D5FB5EE009E02BF /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		AF7B86C72D60BFF1009E02BF /* Instructions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF7B86C62D60BFF1009E02BF /* XCRemoteSwiftPackageReference "Instructions" */;
+			productName = Instructions;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
