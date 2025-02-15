@@ -56,9 +56,10 @@ class CardItemCell: UICollectionViewCell {
 }
 
 extension CardItemCell {
-    func setItem(_ item: Card) {
+    func setItem(_ item: Card, showLockStatus: Bool = false) {
         self.item = item
         cardView.item = item
+        cardView.showLockStatus = showLockStatus
         countView.isHidden = !showCount || item.count < 1
         countLabel.text = "\(item.count)"
     }
