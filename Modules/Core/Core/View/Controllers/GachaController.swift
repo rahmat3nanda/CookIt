@@ -7,8 +7,20 @@
 
 import UIKit
 
+
+public protocol GachaControllerProtocol: AnyObject {
+    func didGachaResult(_ results: [Ingredient])
+}
+
+public protocol GachaControllerDelegate: AnyObject {
+    func didClose()
+}
+
 public class GachaController: UIViewController {
     private var tapCount: Int = 0
+    
+    public var presenter: GachaPresenterProtocol?
+    public weak var delegate: GachaControllerDelegate?
     
     private lazy var mainView: GachaView = {
         let view = GachaView()
@@ -40,12 +52,28 @@ extension GachaController: GachaViewDelegate {
         } else {
             mainView.animateChestOpen()
             SoundManager.instance.playSfx(type: .sparkle)
+            presenter?.didGacha()
         }
         
         tapCount += 1
     }
     
     func didClose() {
-        dismiss(animated: true)
+        delegate?.didClose()
+    }
+}
+
+extension GachaController: GachaControllerProtocol {
+    public func didGachaResult(_ results: [Ingredient]) {
+        func insertNext(index: Int) {
+            guard index < results.count else { return }
+            mainView.addItem(.from(results[index])) {
+                DispatchQueue.main.async {
+                    insertNext(index: index + 1)
+                }
+            }
+        }
+        
+        insertNext(index: 0)
     }
 }

@@ -12,10 +12,16 @@ import Core
 extension SceneDelegate {
     func makeGachaController() -> UIViewController {
         let controller = GachaController()
-//        let presenter = SplashPresenter(view: controller)
-//        controller.presenter = presenter
-//        controller.delegate = self
+        let presenter = GachaPresenter(view: controller)
+        controller.presenter = presenter
+        controller.delegate = self
         
         return controller
+    }
+}
+
+extension SceneDelegate: GachaControllerDelegate {
+    func didClose() {
+        navigationController.topViewController?.dismiss(animated: true)
     }
 }
