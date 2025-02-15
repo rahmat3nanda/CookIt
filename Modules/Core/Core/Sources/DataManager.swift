@@ -6,21 +6,22 @@
 //
 
 import RCache
+import Shared
 
 class DataManager {
     private static var _instance: DataManager?
     private static let lock = NSLock()
-
+    
     var isFirstLaunch: Bool = false {
         didSet {
             RCache.common.save(bool: isFirstLaunch, key: .isFirstLaunch)
         }
     }
-
+    
     var ingredients: [Ingredient] = []
-
+    
     private init(){}
-
+    
     static var instance: DataManager {
         if _instance == nil {
             lock.lock()
@@ -33,39 +34,58 @@ class DataManager {
         }
         return _instance!
     }
-
+    
     func initialize(completion: () -> Void) {
         isFirstLaunch = RCache.common.readBool(key: .isFirstLaunch) ?? false
         ingredients = (try? RCache.common.read(type: Array<Ingredient>.self, key: .ingredients)) ?? []
+        printIfDebug(ingredients)
         completion()
     }
-
+    
     func gacha() -> [Ingredient] {
         let ingredientPool = Ingredient.allCases
-
+        
         guard !ingredientPool.isEmpty else { return [] }
-
+        
         func randomIngredient() -> Ingredient {
             let roll = Double.random(in: 0...1)
             var cumulativeRate = 0.0
-
+            
             for tier in Tier.allCases.sorted(by: { $0.rate > $1.rate }) {
                 cumulativeRate += tier.rate
                 if roll < cumulativeRate {
                     let filteredIngredients = ingredientPool.filter { $0.tier == tier }
-
+                    
                     if let ingredient = filteredIngredients.randomElement() {
                         return ingredient
                     }
                 }
             }
-
+            
             return ingredientPool.randomElement()!
         }
-
+        
         let result = (0..<5).map { _ in randomIngredient() }
         ingredients.append(contentsOf: result)
         try? RCache.common.save(value: ingredients, key: .ingredients)
+        return result
+    }
+    
+    func cook(from items: [Ingredient]) -> Recipe? {
+        let result = Recipe.allCases
+            .sorted { $0.tier.rate > $1.tier.rate }
+            .first { recipe in recipe.ingredients.allSatisfy(items.contains) }
+        
+        if result == nil {
+            for item in items {
+                if let i = ingredients.firstIndex(of: item) {
+                    ingredients.remove(at: i)
+                }
+            }
+            
+            try? RCache.common.save(value: ingredients, key: .ingredients)
+        }
+        
         return result
     }
 }

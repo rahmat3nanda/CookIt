@@ -8,12 +8,18 @@
 import UIKit
 import Shared
 
+public protocol HomeControllerProtocol: AnyObject {
+    func didCookResult(_ result: Recipe?)
+}
+
 public protocol HomeControllerDelegate: AnyObject {
     func navigateToGacha()
+    func navigateToCook(result recipe: Recipe?)
 }
 
 public class HomeController: UIViewController {
     
+    public var presenter: HomePresenterProtocol?
     public weak var delegate: HomeControllerDelegate?
     
     private lazy var mainView: HomeView = {
@@ -44,6 +50,7 @@ public class HomeController: UIViewController {
 public extension HomeController {
     func updateData() {
         mainView.setIngredients(DataManager.instance.ingredients.toCard())
+        mainView.clearCooks()
     }
 }
 
@@ -70,6 +77,12 @@ extension HomeController: HomeViewDelegate {
     }
     
     func didCook(from items: [Ingredient]) {
-        
+        presenter?.didCook(from: items)
+    }
+}
+
+extension HomeController: HomeControllerProtocol {
+    public func didCookResult(_ result: Recipe?) {
+        delegate?.navigateToCook(result: result)
     }
 }

@@ -202,6 +202,12 @@ extension HomeView {
         ingredientsEmptyLabel.isHidden = !self.ingredientItems.isEmpty
         ingredientsCollView.reloadData()
     }
+    
+    func clearCooks() {
+        cookItems.removeAll()
+        cookCollView.reloadData()
+        cookView.isHidden = true
+    }
 }
 
 private extension HomeView {
@@ -273,7 +279,7 @@ private extension HomeView {
         
         isUpdating = true
         cookItems.append(Ingredient(rawValue: item.rawValue)!)
-        cookView.isHidden = false
+        cookView.isHidden = cookItems.count < 2
         
         update(
             collectionView: cookCollView,
@@ -315,8 +321,8 @@ private extension HomeView {
         
         isUpdating = true
         cookItems.remove(at: cookIndex)
-        cookView.isHidden = cookItems.isEmpty
-
+        cookView.isHidden = cookItems.count < 2
+        
         update(
             collectionView: cookCollView,
             at: cookIndex,
@@ -324,7 +330,7 @@ private extension HomeView {
             position: .left
         ) { [weak self] in
             guard let self = self else { return }
-
+            
             if let ingredientIndex = self.ingredientItems.firstIndex(where: { $0.rawValue == item.rawValue }) {
                 self.ingredientItems[ingredientIndex].count += 1
                 
@@ -334,7 +340,7 @@ private extension HomeView {
             } else {
                 let newIngredient = Ingredient(rawValue: item.rawValue)!
                 self.ingredientItems.append(.from(newIngredient))
-
+                
                 self.update(
                     collectionView: self.ingredientsCollView,
                     at: self.ingredientItems.count - 1,
@@ -342,7 +348,7 @@ private extension HomeView {
                     position: .bottom
                 ) { [weak self] in
                     guard let self = self else { return }
-
+                    
                     self.ingredientsEmptyLabel.isHidden = !self.ingredientItems.isEmpty
                     self.isUpdating = false
                 }
@@ -361,7 +367,7 @@ private extension HomeView {
             completion?()
             return
         }
-
+        
         let path = IndexPath(item: index, section: 0)
         DispatchQueue.main.async {
             collectionView.performBatchUpdates({

@@ -21,6 +21,9 @@ extension SceneDelegate {
 
 extension SceneDelegate: CookControllerDelegate {
     func cookDidClose() {
-        navigationController.topViewController?.dismiss(animated: true)
+        navigationController.topViewController?.dismiss(animated: true) { [weak self] in
+            guard let c = self?.navigationController.topViewController as? HomeController else { return }
+            c.updateData()
+        }
     }
 }
