@@ -45,7 +45,7 @@ public enum Recipe: String, Codable {
         }
     }
     
-    public var image: String { rawValue.capitalized }
+    public var image: String { rawValue.prefix(1).uppercased() + rawValue.dropFirst() }
     
     public var name: String {
         switch self {
