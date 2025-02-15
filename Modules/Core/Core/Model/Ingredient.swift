@@ -19,7 +19,7 @@ public enum Ingredient: String, Codable, CaseIterable {
     case chili
     case rice
     
-    public var image: String { "\(rawValue.capitalized)" }
+    public var image: String { rawValue.capitalized }
     
     public var name: String { rawValue.capitalized }
     

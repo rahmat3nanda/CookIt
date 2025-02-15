@@ -37,7 +37,7 @@ class Card {
         Card(
             rawValue: recipe.rawValue,
             tier: recipe.tier,
-            image: UIImage(named: recipe.icon),
+            image: UIImage(named: recipe.image),
             name: recipe.name,
             count: count
         )

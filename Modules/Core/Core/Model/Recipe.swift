@@ -45,19 +45,7 @@ public enum Recipe: String, Codable {
         }
     }
     
-    public var icon: String {
-        switch self {
-        case .grilledCheese: "🥪"
-        case .tomatoSoup: "🍲"
-        case .baconOmelette: "🥓🍳"
-        case .bltSandwich: "🥓🥬🍅"
-        case .friedRice: "🍛"
-        case .spicyMeatDish: "🌶️🥩"
-        case .cheesyMeatball: "🍝"
-        case .ultimateFriedRice: "🔥🍛"
-        case .legendaryFeast: "🍽️✨"
-        }
-    }
+    public var image: String { rawValue.capitalized }
     
     public var name: String {
         switch self {
