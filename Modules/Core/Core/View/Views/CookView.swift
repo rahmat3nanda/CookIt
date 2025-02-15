@@ -30,7 +30,7 @@ class CookView: UIView {
     private lazy var burnView: LottieAnimationView = {
         let view = LottieAnimationView(name: "FireAnim")
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.loopMode = .loop
+        view.loopMode = .playOnce
         view.contentMode = .scaleAspectFit
         view.isHidden = true
         
@@ -41,6 +41,7 @@ class CookView: UIView {
         let view = CardView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
+        view.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
         view.anchors.size.equal(CardView.size)
         
         return view
@@ -96,6 +97,7 @@ private extension CookView {
         
         closeView.onTap { [weak self] in
             guard let self = self else { return }
+            SoundManager.instance.stopSfx()
             self.burnView.stop()
             self.delegate?.didClose()
         }
@@ -118,7 +120,6 @@ private extension CookView {
     private func animateCard(_ item: Card) {
         cardView.item = item
         cardView.isHidden = false
-        cardView.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
 
         SoundManager.instance.playSfx(type: .sparkle)
         UIView.animate(
@@ -129,7 +130,6 @@ private extension CookView {
             options: .curveEaseOut
         ) {
             self.cardView.transform = .identity
-            
         } completion: { _ in
             self.closeView.isHidden = false
         }
@@ -138,7 +138,9 @@ private extension CookView {
     private func animateBurn() {
         SoundManager.instance.playSfx(type: .burn)
         burnView.isHidden = false
-        burnView.play()
+        burnView.play { [weak self] _ in
+            self?.animateBurn()
+        }
         closeView.isHidden = false
     }
 }
