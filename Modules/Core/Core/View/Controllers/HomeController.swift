@@ -15,6 +15,7 @@ public protocol HomeControllerProtocol: AnyObject {
 public protocol HomeControllerDelegate: AnyObject {
     func navigateToGacha()
     func navigateToCook(result recipe: Recipe?)
+    func navigateToLibrary()
 }
 
 public class HomeController: UIViewController {
@@ -52,6 +53,10 @@ public extension HomeController {
         mainView.setIngredients(DataManager.instance.ingredients.toCard())
         mainView.clearCooks()
     }
+    
+    func makeRecipe(_ item: Recipe) {
+        mainView.setCooks(item.ingredients)
+    }
 }
 
 extension HomeController: HomeViewDelegate {
@@ -69,7 +74,7 @@ extension HomeController: HomeViewDelegate {
     }
     
     func didLibrary() {
-        
+        delegate?.navigateToLibrary()
     }
     
     func didGacha() {

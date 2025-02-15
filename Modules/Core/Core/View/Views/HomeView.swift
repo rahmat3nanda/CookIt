@@ -208,6 +208,12 @@ extension HomeView {
         cookCollView.reloadData()
         cookView.isHidden = true
     }
+    
+    func setCooks(_ item: [Ingredient]) {
+        cookItems = item
+        cookCollView.reloadData()
+        cookView.isHidden = cookItems.count < 2
+    }
 }
 
 private extension HomeView {

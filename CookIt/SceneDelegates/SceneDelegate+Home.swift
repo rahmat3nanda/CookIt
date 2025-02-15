@@ -30,4 +30,9 @@ extension SceneDelegate: HomeControllerDelegate {
         let target = makeCookController(item: recipe)
         navigationController.present(target, animated: true)
     }
+    
+    func navigateToLibrary() {
+        let target = makeLibraryController()
+        navigationController.present(target, animated: true)
+    }
 }
