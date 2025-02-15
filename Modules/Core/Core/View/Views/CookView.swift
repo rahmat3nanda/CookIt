@@ -138,8 +138,7 @@ private extension CookView {
     private func animateBurn() {
         SoundManager.instance.playSfx(type: .burn)
         burnView.isHidden = false
-        burnView.play { [weak self] _ in
-            self?.closeView.isHidden = false
-        }
+        burnView.play()
+        closeView.isHidden = false
     }
 }
