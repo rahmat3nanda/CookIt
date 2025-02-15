@@ -49,13 +49,20 @@ extension Array where Element == Ingredient {
         }
     }
     
-    func toCard() -> [Card] {
-        reduce(into: []) { result, item in
+    func toCard(sorted: Bool = true) -> [Card] {
+        let cards: [Card] = reduce(into: []) { result, item in
             if let index = result.firstIndex(where: { $0.name == item.name }) {
                 result[index].count += 1
             } else {
                 result.append(.from(item))
             }
         }
+        
+        return sorted ? cards.sorted {
+            if $0.tier == $1.tier {
+                return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+            }
+            return $0.tier.rate < $1.tier.rate
+        } : cards
     }
 }
