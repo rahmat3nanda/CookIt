@@ -68,4 +68,8 @@ extension HomeController: HomeViewDelegate {
     func didGacha() {
         delegate?.navigateToGacha()
     }
+    
+    func didCook(from items: [Ingredient]) {
+        
+    }
 }

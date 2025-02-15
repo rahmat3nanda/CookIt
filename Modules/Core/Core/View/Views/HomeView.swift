@@ -12,6 +12,12 @@ protocol HomeViewDelegate: AnyObject {
     func didExit()
     func didLibrary()
     func didGacha()
+    func didCook(from items: [Ingredient])
+}
+
+fileprivate enum CollTag: Int {
+    case ingredients = 0
+    case cook = 1
 }
 
 class HomeView: UIView {
@@ -19,6 +25,8 @@ class HomeView: UIView {
     weak var delegate: HomeViewDelegate?
     
     private var ingredientItems: [Card] = []
+    private var cookItems: [Ingredient] = []
+    private var isUpdating: Bool = false
     
     private lazy var background: UIImageView = {
         let view = UIImageView()
@@ -114,6 +122,7 @@ class HomeView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.tag = CollTag.ingredients.rawValue
         collectionView.backgroundColor = .clear
         
         collectionView.addSubview(ingredientsEmptyLabel)
@@ -135,6 +144,21 @@ class HomeView: UIView {
         ingredientsCollView.anchors.width.equal(CardView.size.width + 32)
         
         return view
+    }()
+    
+    
+    private lazy var cookCollView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        let collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.tag = CollTag.cook.rawValue
+        collectionView.backgroundColor = .clear
+        
+        return collectionView
     }()
     
     private lazy var cookView: UIView = {
@@ -187,6 +211,7 @@ private extension HomeView {
         addSubview(menuView)
         addSubview(gachaView)
         addSubview(ingredientsView)
+        addSubview(cookCollView)
         addSubview(cookView)
         
         background.anchors.edges.pin()
@@ -202,6 +227,11 @@ private extension HomeView {
         ingredientsView.anchors.bottom.equal(anchors.bottom)
         ingredientsView.anchors.leading.equal(anchors.leading)
         
+        cookCollView.anchors.leading.equal(ingredientsView.anchors.trailing)
+        cookCollView.anchors.trailing.equal(anchors.trailing)
+        cookCollView.anchors.centerY.equal(anchors.centerY)
+        cookCollView.anchors.height.equal(CardView.size.height)
+        
         cookView.anchors.size.equal(.init(width: 128, height: 48))
         cookView.anchors.centerX.equal(anchors.centerX)
         cookView.anchors.bottom.equal(safeAreaLayoutGuide.anchors.bottom, constant: -16)
@@ -212,7 +242,8 @@ private extension HomeView {
     
     private func configGestures() {
         cookView.onTap { [weak self] in
-            
+            guard let self = self else { return }
+            self.delegate?.didCook(from: self.cookItems)
         }
         
         exitView.onTap { [weak self] in
@@ -232,24 +263,149 @@ private extension HomeView {
         ingredientsCollView.dataSource = self
         ingredientsCollView.delegate = self
         ingredientsCollView.registerCustomCell(CardItemCell.self)
+        cookCollView.dataSource = self
+        cookCollView.delegate = self
+        cookCollView.registerCustomCell(CardItemCell.self)
+    }
+    
+    private func didIngredientItemTap(_ item: Card) {
+        guard !isUpdating, !cookItems.contains(where: { $0.rawValue == item.rawValue }) else { return }
+        
+        isUpdating = true
+        cookItems.append(Ingredient(rawValue: item.rawValue)!)
+        cookView.isHidden = false
+        
+        update(
+            collectionView: cookCollView,
+            at: cookItems.count - 1,
+            isInsert: true,
+            position: .right
+        ) { [weak self] in
+            guard let self = self else { return }
+            
+            guard let ingredientIndex = self.ingredientItems.firstIndex(where: { $0.rawValue == item.rawValue }) else {
+                self.isUpdating = false
+                return
+            }
+            
+            self.ingredientItems[ingredientIndex].count -= 1
+            
+            if self.ingredientItems[ingredientIndex].count < 1 {
+                self.ingredientItems.remove(at: ingredientIndex)
+                self.update(
+                    collectionView: self.ingredientsCollView,
+                    at: ingredientIndex,
+                    isInsert: false,
+                    position: .bottom
+                ) { [weak self] in
+                    guard let self = self else { return }
+                    self.ingredientsEmptyLabel.isHidden = !self.ingredientItems.isEmpty
+                    self.isUpdating = false
+                }
+            } else {
+                let updatedIndexPath = IndexPath(item: ingredientIndex, section: 0)
+                self.ingredientsCollView.reloadItems(at: [updatedIndexPath])
+                self.isUpdating = false
+            }
+        }
+    }
+    
+    private func didCookItemTap(_ item: Card) {
+        guard !isUpdating, let cookIndex = cookItems.firstIndex(where: { $0.rawValue == item.rawValue }) else { return }
+        
+        isUpdating = true
+        cookItems.remove(at: cookIndex)
+        cookView.isHidden = cookItems.isEmpty
+
+        update(
+            collectionView: cookCollView,
+            at: cookIndex,
+            isInsert: false,
+            position: .left
+        ) { [weak self] in
+            guard let self = self else { return }
+
+            if let ingredientIndex = self.ingredientItems.firstIndex(where: { $0.rawValue == item.rawValue }) {
+                self.ingredientItems[ingredientIndex].count += 1
+                
+                let updatedIndexPath = IndexPath(item: ingredientIndex, section: 0)
+                self.ingredientsCollView.reloadItems(at: [updatedIndexPath])
+                self.isUpdating = false
+            } else {
+                let newIngredient = Ingredient(rawValue: item.rawValue)!
+                self.ingredientItems.append(.from(newIngredient))
+
+                self.update(
+                    collectionView: self.ingredientsCollView,
+                    at: self.ingredientItems.count - 1,
+                    isInsert: true,
+                    position: .bottom
+                ) { [weak self] in
+                    guard let self = self else { return }
+
+                    self.ingredientsEmptyLabel.isHidden = !self.ingredientItems.isEmpty
+                    self.isUpdating = false
+                }
+            }
+        }
+    }
+    
+    private func update(
+        collectionView: UICollectionView,
+        at index: Int,
+        isInsert: Bool,
+        position: UICollectionView.ScrollPosition,
+        completion: (() -> Void)? = nil
+    ) {
+        guard index >= 0, index <= collectionView.numberOfItems(inSection: 0) else {
+            completion?()
+            return
+        }
+
+        let path = IndexPath(item: index, section: 0)
+        DispatchQueue.main.async {
+            collectionView.performBatchUpdates({
+                if isInsert {
+                    collectionView.insertItems(at: [path])
+                } else {
+                    collectionView.deleteItems(at: [path])
+                }
+            }, completion: { _ in
+                if isInsert {
+                    collectionView.scrollToItem(at: path, at: position, animated: true)
+                }
+                completion?()
+            })
+        }
     }
 }
 
 extension HomeView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        ingredientItems.count
+        collectionView.tag.collTag == .ingredients ? ingredientItems.count : cookItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let isIngredient = collectionView.tag.collTag == .ingredients
+        let item = isIngredient ? ingredientItems[indexPath.item] : .from(cookItems[indexPath.item])
         let cell = collectionView.dequeueReusableCustomCell(with: CardItemCell.self, indexPath: indexPath)
-        cell.setItem(ingredientItems[indexPath.item])
-        cell.showCount = true
+        cell.setItem(item)
+        cell.showCount = collectionView.tag.collTag == .ingredients
+        cell.onTap { [weak self] in
+            guard let self = self else { return }
+            isIngredient ? self.didIngredientItemTap(item) : self.didCookItemTap(item)
+        }
         return cell
     }
 }
 extension HomeView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 16, left: 16, bottom: 16, right: 16)
+        .init(
+            top: collectionView.tag.collTag == .ingredients ? 16 : 0,
+            left: 16,
+            bottom: collectionView.tag.collTag == .ingredients ? 16 : 0,
+            right: 16
+        )
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CardView.size
@@ -261,6 +417,18 @@ extension HomeView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         0
+    }
+}
+
+fileprivate extension Int {
+    var collTag: CollTag? {
+        if self == CollTag.ingredients.rawValue {
+            return .ingredients
+        }
+        if self == CollTag.ingredients.rawValue {
+            return .cook
+        }
+        return nil
     }
 }
 
