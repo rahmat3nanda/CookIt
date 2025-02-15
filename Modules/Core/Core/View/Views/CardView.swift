@@ -12,11 +12,28 @@ class CardView: UIView {
     
     static var size: CGSize = .init(width: 132, height: 176)
     
+    var showLockStatus: Bool = false {
+        didSet {
+            updateView()
+        }
+    }
+    
     var item: Card? {
         didSet {
             updateView()
         }
     }
+    
+    private lazy var blurView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .gray.withAlphaComponent(0.95)
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 12
+        view.isHidden = true
+        
+        return view
+    }()
     
     private lazy var imageView: UIImageView = {
         let view = UIImageView()
@@ -67,6 +84,12 @@ class CardView: UIView {
         imageView.anchors.leading.equal(view.anchors.leading, constant: 4)
         imageView.anchors.trailing.equal(view.anchors.trailing, constant: -4)
         
+        view.addSubview(blurView)
+        blurView.anchors.height.equal(view.anchors.width, constant: -8)
+        blurView.anchors.top.equal(view.anchors.top, constant: 4)
+        blurView.anchors.leading.equal(view.anchors.leading, constant: 4)
+        blurView.anchors.trailing.equal(view.anchors.trailing, constant: -4)
+        
         let container = UIStackView(arrangedSubviews: [nameLabel, tierLabel])
         container.translatesAutoresizingMaskIntoConstraints = false
         container.axis = .vertical
@@ -104,8 +127,13 @@ private extension CardView {
     private func updateView() {
         contentView.backgroundColor = item?.tier.color
         imageView.image = item?.image
-        nameLabel.text = item?.name
         tierLabel.text = item?.tier.name
+        
+        if showLockStatus {
+            let isUnlocked = item?.isUnlocked ?? false
+            nameLabel.text = isUnlocked ? item?.name : "Locked"
+            blurView.isHidden = isUnlocked
+        }
     }
 }
 
