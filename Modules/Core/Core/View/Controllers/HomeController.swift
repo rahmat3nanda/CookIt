@@ -34,6 +34,17 @@ public class HomeController: UIViewController {
         super.loadView()
         view = mainView
     }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        updateData()
+    }
+}
+
+public extension HomeController {
+    func updateData() {
+        mainView.setItems(DataManager.instance.ingredients.toCard())
+    }
 }
 
 extension HomeController: HomeViewDelegate {
@@ -48,6 +59,10 @@ extension HomeController: HomeViewDelegate {
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
         present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func didLibrary() {
+        
     }
     
     func didGacha() {

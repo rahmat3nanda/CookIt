@@ -22,6 +22,9 @@ extension SceneDelegate {
 
 extension SceneDelegate: GachaControllerDelegate {
     func didClose() {
-        navigationController.topViewController?.dismiss(animated: true)
+        navigationController.topViewController?.dismiss(animated: true) { [weak self] in
+            guard let c = self?.navigationController.topViewController as? HomeController else { return }
+            c.updateData()
+        }
     }
 }
