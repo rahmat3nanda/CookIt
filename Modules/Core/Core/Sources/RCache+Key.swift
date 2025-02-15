@@ -9,4 +9,5 @@ import RCache
 
 extension RCache.Key {
    static let isFirstLaunch = RCache.Key("isFirstLaunch")
+   static let ingredients = RCache.Key("ingredients")
 }
