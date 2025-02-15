@@ -93,32 +93,6 @@ class HomeView: UIView {
         return view
     }()
     
-    private lazy var ingredientsArrowView: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(systemName: "chevron.forward")
-        view.contentMode = .scaleAspectFit
-        view.tintColor = .black
-        view.backgroundColor = .clear
-        
-        return view
-    }()
-    
-    private lazy var ingredientsActionView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.clipsToBounds = true
-        view.backgroundColor = .white.withAlphaComponent(0.85)
-        view.layer.cornerRadius = 16
-        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-        
-        view.addSubview(ingredientsArrowView)
-        ingredientsArrowView.anchors.center.align()
-        ingredientsArrowView.anchors.size.equal(.init(width: 24, height: 32))
-        
-        return view
-    }()
-    
     private lazy var ingredientsEmptyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -163,6 +137,25 @@ class HomeView: UIView {
         return view
     }()
     
+    private lazy var cookView: UIView = {
+        let label = UILabel()
+        label.text = "CookIt!"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+            .rounded()
+        
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .init(named: "Accent")?.withAlphaComponent(0.85)
+        view.layer.cornerRadius = 16
+        view.isHidden = true
+        
+        view.addSubview(label)
+        label.anchors.center.align()
+        
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configUI()
@@ -194,6 +187,7 @@ private extension HomeView {
         addSubview(menuView)
         addSubview(gachaView)
         addSubview(ingredientsView)
+        addSubview(cookView)
         
         background.anchors.edges.pin()
         
@@ -208,12 +202,16 @@ private extension HomeView {
         ingredientsView.anchors.bottom.equal(anchors.bottom)
         ingredientsView.anchors.leading.equal(anchors.leading)
         
+        cookView.anchors.size.equal(.init(width: 128, height: 48))
+        cookView.anchors.centerX.equal(anchors.centerX)
+        cookView.anchors.bottom.equal(safeAreaLayoutGuide.anchors.bottom, constant: -16)
+        
         configGestures()
         configCollectionView()
     }
     
     private func configGestures() {
-        ingredientsActionView.onTap { [weak self] in
+        cookView.onTap { [weak self] in
             
         }
         
