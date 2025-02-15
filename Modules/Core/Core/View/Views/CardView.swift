@@ -127,6 +127,7 @@ private extension CardView {
     private func updateView() {
         contentView.backgroundColor = item?.tier.color
         imageView.image = item?.image
+        nameLabel.text = item?.name
         tierLabel.text = item?.tier.name
         
         if showLockStatus {

@@ -84,7 +84,7 @@ class DataManager {
     
     func cook(from items: [Ingredient]) -> Recipe? {
         let result = Recipe.allCases
-            .sorted { $0.tier.rate > $1.tier.rate }
+            .sortedByTier()
             .first { recipe in recipe.ingredients.allSatisfy(items.contains) }
         
         if let result = result {

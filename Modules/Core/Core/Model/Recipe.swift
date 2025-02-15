@@ -61,3 +61,9 @@ public enum Recipe: String, Codable, CaseIterable {
         }
     }
 }
+
+extension Array where Element == Recipe {
+    func sortedByTier() -> [Recipe] {
+        sorted { $0.tier.rate < $1.tier.rate }
+    }
+}

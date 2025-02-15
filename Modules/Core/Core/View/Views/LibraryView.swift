@@ -181,7 +181,7 @@ extension LibraryView: UICollectionViewDataSource {
             let item = Ingredient.allCases.sortedByTierAndName()[indexPath.item]
             cell.setItem(.from(item, isUnlocked: item.isUnlocked()), showLockStatus: true)
         } else {
-            let item = Recipe.allCases[indexPath.item]
+            let item = Recipe.allCases.sortedByTier()[indexPath.item]
             cell.setItem(.from(item, isUnlocked: item.isUnlocked()), showLockStatus: true)
             cell.onTap { [weak self] in
                 self?.delegate?.didSelect(item)
