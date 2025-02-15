@@ -10,6 +10,8 @@ import Shared
 
 class CardItemCell: UICollectionViewCell {
     
+    private var item: Card? = nil
+    
     var showCount: Bool = false {
         didSet { update() }
     }
@@ -55,7 +57,9 @@ class CardItemCell: UICollectionViewCell {
 
 extension CardItemCell {
     func setItem(_ item: Card) {
+        self.item = item
         cardView.item = item
+        countView.isHidden = !showCount || item.count < 1
         countLabel.text = "\(item.count)"
     }
 }
@@ -72,8 +76,8 @@ private extension CardItemCell {
     }
     
     private func update() {
-        cardView.anchors.edges.pin(insets: 12)
-        countView.isHidden = !showCount
+        cardView.anchors.edges.pin(insets: showCount ? 12 : 0)
+        countView.isHidden = !showCount || (item?.count ?? 0) < 1
     }
 }
 
