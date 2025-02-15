@@ -57,7 +57,7 @@ class SoundManager {
         
         do {
             sfxPlayer = try AVAudioPlayer(contentsOf: url)
-            sfxPlayer?.numberOfLoops = 1
+            sfxPlayer?.numberOfLoops = 0
             sfxPlayer?.prepareToPlay()
             sfxPlayer?.play()
         } catch {
