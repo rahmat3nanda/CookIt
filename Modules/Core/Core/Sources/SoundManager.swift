@@ -58,13 +58,21 @@ class SoundManager {
         guard let url = type.rawValue.url else { return }
         
         do {
-            sfxPlayer = try AVAudioPlayer(contentsOf: url)
-            sfxPlayer?.numberOfLoops = 0
-            sfxPlayer?.prepareToPlay()
-            sfxPlayer?.play()
+            let newPlayer = try AVAudioPlayer(contentsOf: url)
+            newPlayer.numberOfLoops = 0
+            newPlayer.prepareToPlay()
+            newPlayer.play()
+            
+            sfxPlayer?.stop()
+            sfxPlayer = newPlayer
         } catch {
             printIfDebug("Error loading sfx: \(error)")
         }
+    }
+    
+    func stopSfx() {
+        sfxPlayer?.stop()
+        sfxPlayer?.currentTime = 0
     }
 }
 
