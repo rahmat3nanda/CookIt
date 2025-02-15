@@ -18,7 +18,7 @@ class HomeView: UIView {
     
     weak var delegate: HomeViewDelegate?
     
-    private var items: [Card] = []
+    private var ingredientItems: [Card] = []
     
     private lazy var background: UIImageView = {
         let view = UIImageView()
@@ -173,9 +173,9 @@ class HomeView: UIView {
 }
 
 extension HomeView {
-    func setItems(_ items: [Card]) {
-        self.items = items
-        ingredientsEmptyLabel.isHidden = !self.items.isEmpty
+    func setIngredients(_ items: [Card]) {
+        ingredientItems = items
+        ingredientsEmptyLabel.isHidden = !self.ingredientItems.isEmpty
         ingredientsCollView.reloadData()
     }
 }
@@ -237,12 +237,12 @@ private extension HomeView {
 
 extension HomeView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        items.count
+        ingredientItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCustomCell(with: CardItemCell.self, indexPath: indexPath)
-        cell.setItem(items[indexPath.item])
+        cell.setItem(ingredientItems[indexPath.item])
         cell.showCount = true
         return cell
     }

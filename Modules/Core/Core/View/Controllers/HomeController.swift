@@ -43,7 +43,7 @@ public class HomeController: UIViewController {
 
 public extension HomeController {
     func updateData() {
-        mainView.setItems(DataManager.instance.ingredients.toCard())
+        mainView.setIngredients(DataManager.instance.ingredients.toCard())
     }
 }
 
