@@ -13,8 +13,7 @@ public protocol SplashPresenterProtocol: AnyObject {
 }
 
 public class SplashPresenter: SplashPresenterProtocol {
-    weak var view: SplashControllerProtocol?
-    
+    private weak var view: SplashControllerProtocol?
     
     public init(view: SplashControllerProtocol) {
         self.view = view
