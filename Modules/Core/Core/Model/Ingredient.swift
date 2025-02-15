@@ -43,7 +43,7 @@ extension Array where Element == Ingredient {
     func sortedByTierAndName() -> [Ingredient] {
         sorted {
             if $0.tier == $1.tier {
-                return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+                return $0.rawValue.localizedCaseInsensitiveCompare($1.rawValue) == .orderedAscending
             }
             return $0.tier.rate < $1.tier.rate
         }
@@ -51,7 +51,7 @@ extension Array where Element == Ingredient {
     
     func toCard(sorted: Bool = true) -> [Card] {
         let cards: [Card] = reduce(into: []) { result, item in
-            if let index = result.firstIndex(where: { $0.name == item.name }) {
+            if let index = result.firstIndex(where: { $0.rawValue == item.rawValue }) {
                 result[index].count += 1
             } else {
                 result.append(.from(item))
@@ -60,7 +60,7 @@ extension Array where Element == Ingredient {
         
         return sorted ? cards.sorted {
             if $0.tier == $1.tier {
-                return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+                return $0.rawValue.localizedCaseInsensitiveCompare($1.rawValue) == .orderedAscending
             }
             return $0.tier.rate < $1.tier.rate
         } : cards

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Recipe: Codable {
+public enum Recipe: String, Codable {
     case grilledCheese
     case tomatoSoup
     case baconOmelette
