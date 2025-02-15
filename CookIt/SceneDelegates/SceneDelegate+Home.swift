@@ -12,8 +12,6 @@ import Core
 extension SceneDelegate {
     func makeHomeController() -> UIViewController {
         let controller = HomeController()
-        //        let presenter = SplashPresenter(view: controller)
-        //        controller.presenter = presenter
         controller.delegate = self
         
         return controller

@@ -11,6 +11,8 @@ import Shared
 enum SFXType: String {
     case box = "SfxBox"
     case sparkle = "SfxSparkle"
+    case burn = "SfxBurn"
+    case sizzle = "SfxSizzle"
 }
 
 class SoundManager {
